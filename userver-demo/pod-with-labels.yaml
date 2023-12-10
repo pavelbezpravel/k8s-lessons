@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: userver-demo
+  namespace: pavelbezpravel
+  labels:
+    app: grpc-server
+    env: prod
+spec:
+  containers:
+    - name: app
+      image: pavelbezpravel/userver-demo:0.1.0
+      ports:
+        - containerPort: 8091
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "100m"
+        limits:
+          memory: "64Mi"
+          cpu: "500m"
