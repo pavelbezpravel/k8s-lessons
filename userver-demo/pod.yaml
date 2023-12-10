@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: userver-demo
+  namespace: pavelbezpravel
+spec:
+  containers:
+  - name: app
+    image: pavelbezpravel/userver-demo:0.1.0
+    ports:
+      - containerPort: 8091
