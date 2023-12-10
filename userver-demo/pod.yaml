@@ -5,11 +5,11 @@ metadata:
   namespace: pavelbezpravel
 spec:
   containers:
-  - name: app
-    image: pavelbezpravel/userver-demo:0.1.0
-    ports:
-      - containerPort: 8091
-    resources:
+    - name: app
+      image: pavelbezpravel/userver-demo:0.1.0
+      ports:
+        - containerPort: 8091
+      resources:
         requests:
           memory: "64Mi"
           cpu: "100m"
