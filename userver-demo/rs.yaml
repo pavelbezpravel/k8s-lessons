@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: userver-demo-rs
+  namespace: pavelbezpravel
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-awesome-app
+  template:
+    metadata:
+      name: userver-demo-app
+      labels:
+        app: my-awesome-app
+    spec:
+      containers:
+        - name: app
+          image: pavelbezpravel/userver-demo:0.1.0
+          ports:
+            - containerPort: 8091
+
+
+
+
+
