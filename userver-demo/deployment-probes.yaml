@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userver-demo-deployment
+  namespace: pavelbezpravel
+  labels:
+    app: my-awesome-app
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: my-awesome-app
+  template:
+    metadata:
+      labels:
+        app: my-awesome-app
+    spec:
+      containers:
+        - name: app
+          image: pavelbezpravel/userver-demo:0.2.0
+          ports:
+            - name: grpc-insecure
+              containerPort: 8091
+          livenessProbe:
+            exec:
+              command: ["/bin/sh", "-c", "grpc_health_probe -addr=:8091 2>&1 | grep -q SERVING"]
+            initialDelaySeconds: 10
+          readinessProbe:
+            exec:
+              command: ["grpc_health_probe", "-addr=:8091"]
+            initialDelaySeconds: 10
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "64Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userver-demo-service
+  namespace: pavelbezpravel
+spec:
+  selector:
+    app: my-awesome-app
+  ports:
+    - name: grpc-insecure
+      port: 8091
+      targetPort: 8091
